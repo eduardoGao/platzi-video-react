@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "../assets/styles/components/Header.scss";
 import logo from '../assets/static/logo-platzi-video-BW2.png';
@@ -8,11 +9,17 @@ const Header = () => {
   return (
     <React.Fragment>
       <header className="header">
-        <img className="header__img" src={logo} alt="logo" />
+
+        <Link to="/">
+          <img className="header__img" src={logo} alt="logo" />
+        </Link>
+
         <div className="header__menu">
           <div className="header__menu-profile">
             <img src={userIcon} alt="perfil" />
-            <p>Perfil</p>
+            <Link to="/login">
+              Iniciar Sesión
+            </Link>
             <ul>
               <li>
                 <a href="/">Cuenta</a>
