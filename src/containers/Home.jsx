@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { connect } from "react-redux";
+
 import Header from "../components/Header";
 import Search from "../components/Search";
 import Categories from "../components/Categories";
 import Carousel from "../components/Carousel";
 import CarouselItem from "../components/CarouselItem";
-import Footer from "../components/Footer";
-import useInitialState from "../hooks/useInitialState"
 
 import "../assets/styles/App.scss";
 
-const API = 'http://localhost:3000/initalState';
-
-const Home = () => {
-  const useState = useInitialState(API);
+const Home = ({ mylist, trends, originals }) => {
   return (
     <>
+      <Header />
       <Search />
       {
-        useState.mylist.length > 0 &&
+        mylist.length > 0 &&
         <Categories title="Mi Lista">
           <Carousel>
             {
-              useState.mylist.map((item) =>
-                <CarouselItem key={item.id} {...item} />
+              mylist.map((item) =>
+                <CarouselItem
+                  key={item.id}
+                  {...item}
+                  isList
+                />
               )
             }
           </Carousel>
@@ -31,7 +33,7 @@ const Home = () => {
       <Categories title="Tendencias">
         <Carousel>
           {
-            useState.trends.map((item) =>
+            trends.map((item) =>
               <CarouselItem key={item.id} {...item} />
             )
           }
@@ -40,7 +42,7 @@ const Home = () => {
       <Categories title="Originales">
         <Carousel>
           {
-            useState.originals.map(item =>
+            originals.map(item =>
               <CarouselItem key={item.id} {...item} />
             )
           }
@@ -51,4 +53,12 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    mylist: state.mylist,
+    trends: state.trends,
+    originals: state.originals,
+  };
+};
+
+export default connect(mapStateToProps, null)(Home);
